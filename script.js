@@ -15,42 +15,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const backendUrl = 'https://b9280818-97da-4f17-9c2e-db08824cd4f1-00-2btl4c4c21klj.picard.replit.dev/chat';
 
     // --- TEMABYTTING ---
-    // Med den nye CSS-en er standardtemaet mørkt.
-    // Denne logikken vil legge til 'dark-mode'-klassen for et *alternativt* mørkt tema
-    // eller fjerne den for å gå tilbake til standard (som nå er mørkt).
-    // Hvis du vil at toggle skal bytte til et *lyst* tema, må du definere .dark-mode i CSS som lyst.
     const toggleTheme = () => {
         if (themeToggleCheckbox.checked) {
-            bodyElement.classList.add('dark-mode'); // Aktiverer alternativt mørkt tema (eller lyst hvis CSS er endret)
-            localStorage.setItem('theme', 'dark'); // Eller 'light-theme-active'
+            bodyElement.classList.add('dark-mode'); // Aktiverer "helt svart" tema
+            localStorage.setItem('theme', 'pitch-black'); // Lagrer preferansen for "helt svart"
         } else {
-            bodyElement.classList.remove('dark-mode'); // Går til standard CSS-tema (som nå er mørkt)
-            localStorage.setItem('theme', 'default-dark'); // Eller 'dark' hvis default er mørkt
+            bodyElement.classList.remove('dark-mode'); // Går til standard mørkegrått tema (ingen klasse)
+            localStorage.setItem('theme', 'default-dark-grey'); // Lagrer preferansen for standard mørkegrå
         }
     };
 
     const savedTheme = localStorage.getItem('theme');
-    // Oppdater logikken her basert på hvordan du vil at tema-lagring skal fungere
-    // Med den nye CSS-en (standard mørk), kan dette forenkles eller endres.
-    // Eksempel: Hvis 'default-dark' er lagret, eller ingenting er lagret, gjør ingenting (CSS håndterer det).
-    // Hvis 'dark' (som betyr alternativ mørk) er lagret, sett checkbox og class.
-    if (savedTheme === 'dark') { // Antar 'dark' betyr det alternative mørke temaet
+
+    if (savedTheme === 'pitch-black') {
         bodyElement.classList.add('dark-mode');
         if (themeToggleCheckbox) themeToggleCheckbox.checked = true;
-    } else { // For 'default-dark' eller ingen lagret verdi
+    } else { // Inkluderer 'default-dark-grey' eller hvis ingenting er lagret (første besøk)
         bodyElement.classList.remove('dark-mode');
         if (themeToggleCheckbox) themeToggleCheckbox.checked = false;
     }
-    // Hvis du ønsker at standard skal være det mørke temaet uten 'dark-mode' klassen,
-    // og at theme-toggle legger til 'light-mode' klassen:
-    // if (savedTheme === 'light') {
-    //     bodyElement.classList.add('light-mode'); // Du må definere .light-mode i CSS
-    //     if(themeToggleCheckbox) themeToggleCheckbox.checked = true; // Eller inverter logikken for checkbox
-    // } else {
-    //     bodyElement.classList.remove('light-mode');
-    //     if(themeToggleCheckbox) themeToggleCheckbox.checked = false;
-    // }
-
 
     if (themeToggleCheckbox) {
         themeToggleCheckbox.addEventListener('change', toggleTheme);
@@ -163,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 2000);
             });
         });
-        // Plasserer kopier-knappen etter tidstempel hvis begge er der
         if (metaDiv.lastChild && metaDiv.lastChild.tagName === 'SPAN') {
              metaDiv.appendChild(copyBtn);
         } else {
@@ -171,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Funksjon for enkel Markdown-rendering
     function renderSimpleMarkdown(text) {
         if (typeof text !== 'string') return '';
         let html = text;
@@ -204,13 +185,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showThinkingIndicator() {
         const thinkingElement = document.createElement('div');
-        thinkingElement.classList.add('message', 'bot-message', 'thinking'); // 'thinking' klasse for egen styling
+        thinkingElement.classList.add('message', 'bot-message', 'thinking');
         thinkingElement.id = 'thinking-indicator';
 
         const pElement = document.createElement('p');
         pElement.textContent = "Tenker...";
         thinkingElement.appendChild(pElement);
-        // addTimestamp(thinkingElement); // Vurder om tenke-indikator trenger tidstempel
 
         chatWindow.appendChild(thinkingElement);
         chatWindow.scrollTop = chatWindow.scrollHeight;
@@ -223,8 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- CHAT HISTORIKK (LocalStorage) ---
-    const CHAT_HISTORY_KEY = 'gullaksenChatHistory_v2_dark'; // Endret nøkkel for å unngå konflikt med gammel historikk
+    const CHAT_HISTORY_KEY = 'gullaksenChatHistory_v2_themes'; // Ny nøkkel for å unngå konflikt
 
     function saveMessageToHistory(messageObject) {
         const history = getChatHistory();
@@ -271,7 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentTime = formatTime(new Date());
             addTimestampFromText(welcomeMessageElement, currentTime);
             addCopyButton(welcomeMessageElement, welcomeText);
-            // saveMessageToHistory({ text: welcomeText, sender: 'bot', timestamp: currentTime, type: '' }); // Valgfritt å lagre velkomst
             chatWindow.appendChild(welcomeMessageElement);
         } else {
             history.forEach(displayMessageFromHistory);
@@ -325,16 +303,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const botTimestamp = addTimestamp(botMessageElement);
             if (messageType !== 'error') {
                 addCopyButton(botMessageElement, replyText);
-
-                // *** NY KODE for dynamisk effekt på bot-svar ***
                 botMessageElement.classList.add('bot-reply-indicator');
                 setTimeout(() => {
-                    // Fjerner klassen slik at animasjonen kan kjøre igjen neste gang
-                    if (botMessageElement) { // Dobbeltsjekk at elementet fortsatt finnes
+                    if (botMessageElement) {
                         botMessageElement.classList.remove('bot-reply-indicator');
                     }
-                }, 1200); // Varighet på animasjonen i ms (match CSS: 1.2s = 1200ms)
-                // *** SLUTT PÅ NY KODE ***
+                }, 1200);
             }
             chatWindow.appendChild(botMessageElement);
             saveMessageToHistory({ text: replyText, sender: 'bot', timestamp: botTimestamp, type: messageType });
@@ -348,7 +322,6 @@ document.addEventListener('DOMContentLoaded', () => {
             saveMessageToHistory({ text: errorText, sender: 'bot', timestamp: errorTimestamp, type: 'error' });
             console.error('Nettverksfeil eller feil ved sending/mottak:', error);
         }
-        // Sikrer at vi scroller helt ned etter at alle elementer (inkl. de med animasjon) er lagt til
         requestAnimationFrame(() => {
             chatWindow.scrollTop = chatWindow.scrollHeight;
         });
@@ -360,8 +333,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (userInput) {
         userInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter' && !event.shiftKey) { // Legg til !event.shiftKey hvis du vil tillate linjeskift med Shift+Enter
-                event.preventDefault(); // Forhindrer standard Enter-oppførsel i tekstfelt (f.eks. linjeskift)
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
                 sendMessage();
             }
         });
@@ -369,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (clearChatButton) {
         clearChatButton.addEventListener('click', () => {
-            if (confirm("Er du sikker på at du vil slette chatloggen?")) { // Legger til en bekreftelsesdialog
+            if (confirm("Er du sikker på at du vil slette chatloggen?")) {
                 clearChatHistory();
                 loadChatHistory();
             }
@@ -377,5 +350,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- INITIALISERING ---
-    loadChatHistory(); // Laster historikk og viser velkomstmelding hvis ingen historikk
+    loadChatHistory();
 });
