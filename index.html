@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Min Gemini Chatbot</title>
+    <link rel="stylesheet" href="style.css"> <!-- Sørg for at denne peker riktig til din CSS-fil -->
+</head>
+<body>
+    <div id="chat-container">
+        <!-- Hamburgermeny og Dropdown (Struktur uendret) -->
+        <div id="menu-container">
+            <button id="hamburger-button" class="hamburger-button" aria-label="Åpne meny" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div id="dropdown-menu" class="dropdown-menu">
+                <button id="login-button-menu" class="menu-item">Logg inn</button>
+                <!-- Her kan du legge til flere menyvalg senere -->
+            </div>
+        </div>
+
+        <h1>Gullaksen Chatbot</h1>
+
+        <!-- Temabryter (Struktur uendret) -->
+        <div class="theme-toggle-container">
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle-checkbox">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+        <div id="chat-window">
+            <!--
+                Meldinger vil vises her dynamisk via JavaScript (loadChatHistory).
+                Den nye CSS-en vil style meldingene som legges til her.
+                Den "halen" på meldingsboblene i CSS-en vil gjelde for .user-message og .bot-message.
+            -->
+        </div>
+
+        <div id="input-area">
+            <input type="text" id="user-input" placeholder="Skriv meldingen din her...">
+            <button id="send-button">Send</button>
+        </div>
+
+        <p class="disclaimer-text">Chatboten kan ta feil.</p>
+
+        <div id="chat-controls">
+            <button id="clear-chat-button">Slett Chat</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script> <!-- Sørg for at denne peker riktig til din JS-fil -->
+</body>
+</html>
