@@ -1,4 +1,6 @@
-/* style.css - Komplett fil med standard mørkegrått og "helt svart" modus */
+/* style.css - KOMPLETT FIL MED STANDARD MØRKEGRÅTT OG LYST TEMA */
+
+/* --- STANDARD MØRKEGRÅTT TEMA (ingen klasse på body) --- */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
@@ -6,8 +8,8 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    background-color: #121212; /* Standard mørkegrå: Hovedbakgrunn */
-    color: #e0e0e0;
+    background-color: #121212; /* MØRK: Hovedbakgrunn */
+    color: #e0e0e0;           /* MØRK: Lys tekst */
     padding: 20px;
     box-sizing: border-box;
     transition: background-color 0.3s, color 0.3s;
@@ -18,10 +20,10 @@ body {
     max-width: 500px;
     height: 75vh;
     max-height: 700px;
-    background-color: #1e1e1e; /* Standard mørkegrå: Chat container */
+    background-color: #1e1e1e; /* MØRK: Chat container */
     border-radius: 12px;
-    border: 1px solid #333333;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+    border: 1px solid #333333; /* MØRK: Kantlinje */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.7); /* MØRK: Skygge */
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -33,19 +35,19 @@ h1 {
     font-size: 1.4em;
     font-weight: 500;
     text-align: center;
-    padding: 18px 15px; /* Grunnleggende padding */
+    padding: 18px 15px;
     margin: 0;
-    background-color: #252525; /* Standard mørkegrå: Header */
-    color: #f5f5f5;
-    border-bottom: 1px solid #333333;
+    background-color: #252525; /* MØRK: Header */
+    color: #f5f5f5;           /* MØRK: Lys tekst i header */
+    border-bottom: 1px solid #333333; /* MØRK: Kantlinje under header */
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    position: relative; /* For z-index og potensielle pseudo-elementer */
+    position: relative;
 }
 
-/* --- STIL FOR TEMABRYTER --- */
+/* --- TEMABRYTER (Felles stiler) --- */
 .theme-toggle-container {
     position: absolute;
-    top: 29px; /* Justert for vertikal sentrering i header */
+    top: 29px;
     right: 20px;
     transform: translateY(-50%);
     z-index: 10;
@@ -64,7 +66,7 @@ h1 {
     position: absolute;
     cursor: pointer;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #555; /* Standard mørkegrå: Bakgrunn for slider når AV */
+    background-color: #555; /* MØRK: Bakgrunn for slider når AV (Mørk modus aktiv) */
     transition: .4s;
 }
 
@@ -73,16 +75,16 @@ h1 {
     content: "";
     height: 18px; width: 18px;
     left: 3px; bottom: 3px;
-    background-color: #ccc; /* Standard mørkegrå: Selve bryteren */
+    background-color: #ccc; /* MØRK: Selve bryteren når AV */
     transition: .4s;
 }
 
-input:checked + .slider { background-color: #007bff; } /* Blå når PÅ (for "helt svart" modus) */
+/* Når bryteren er PÅ (Lys modus aktiv) */
+input:checked + .slider { background-color: #007bff; } /* Blå bakgrunn for bryter */
 input:focus + .slider { box-shadow: 0 0 1px #007bff; }
 input:checked + .slider:before {
     transform: translateX(20px);
-    /* I "helt svart" modus kan selve sirkelen være mørk for å matche */
-    /* Dette håndteres mer spesifikt under body.dark-mode .slider:before */
+    background-color: white; /* Hvit sirkel når PÅ */
 }
 .slider.round { border-radius: 24px; }
 .slider.round:before { border-radius: 50%; }
@@ -91,382 +93,311 @@ input:checked + .slider:before {
     flex-grow: 1;
     padding: 15px;
     overflow-y: auto;
-    border-bottom: 1px solid #333333; /* Standard mørkegrå */
+    border-bottom: 1px solid #333333; /* MØRK: Kantlinje */
     display: flex;
     flex-direction: column;
-    background-color: #1e1e1e; /* Standard mørkegrå: Samme som chat-container */
+    background-color: #1e1e1e; /* MØRK: Bakgrunn chat-vindu */
     gap: 12px;
     scrollbar-width: thin;
-    scrollbar-color: #444 #1e1e1e; /* Standard mørkegrå: Scrollbar */
+    scrollbar-color: #444 #1e1e1e; /* MØRK: Scrollbar */
 }
 #chat-window::-webkit-scrollbar { width: 8px; }
-#chat-window::-webkit-scrollbar-track { background: #1e1e1e; } /* Standard mørkegrå */
-#chat-window::-webkit-scrollbar-thumb { background-color: #444; border-radius: 4px; } /* Standard mørkegrå */
+#chat-window::-webkit-scrollbar-track { background: #1e1e1e; } /* MØRK */
+#chat-window::-webkit-scrollbar-thumb { background-color: #444; border-radius: 4px; } /* MØRK */
 
-
+/* --- Meldinger (Felles stiler) --- */
 .message {
-    max-width: 85%;
-    margin-bottom: 0;
-    padding: 10px 15px;
-    border-radius: 18px;
-    line-height: 1.5;
+    max-width: 85%; margin-bottom: 0; padding: 10px 15px;
+    border-radius: 18px; line-height: 1.5;
     transition: background-color 0.3s, color 0.3s, transform 0.2s;
-    animation: fadeIn 0.4s ease-out;
-    position: relative;
+    animation: fadeIn 0.4s ease-out; position: relative;
 }
-
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px) scale(0.98); }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 .message:before {
-    content: "";
-    position: absolute;
-    bottom: 0px;
-    width: 0;
-    height: 0;
-    border-style: solid;
+    content: ""; position: absolute; bottom: 0px;
+    width: 0; height: 0; border-style: solid;
 }
 
+/* MØRK MODUS MELDINGER */
 .user-message {
-    background-color: #007bff; /* Standard mørkegrå: Brukermelding */
-    color: white;
-    align-self: flex-end;
-    border-bottom-right-radius: 6px;
+    background-color: #007bff; color: white;
+    align-self: flex-end; border-bottom-right-radius: 6px;
 }
 .user-message:before {
-    right: -8px;
-    border-width: 10px 0 0 10px;
-    border-color: transparent transparent transparent #007bff; /* Standard mørkegrå */
+    right: -8px; border-width: 10px 0 0 10px;
+    border-color: transparent transparent transparent #007bff;
 }
-
-
 .bot-message {
-    background-color: #3a3b3c; /* Standard mørkegrå: Bot-melding */
-    color: #e4e6eb;
-    align-self: flex-start;
-    border-bottom-left-radius: 6px;
+    background-color: #3a3b3c; color: #e4e6eb;
+    align-self: flex-start; border-bottom-left-radius: 6px;
 }
 .bot-message:before {
-    left: -8px;
-    border-width: 10px 10px 0 0;
-    border-color: transparent #3a3b3c transparent transparent; /* Standard mørkegrå */
+    left: -8px; border-width: 10px 10px 0 0;
+    border-color: transparent #3a3b3c transparent transparent;
 }
-
 .error-message {
-    background-color: #5c2323; /* Standard mørkegrå: Feilmelding */
-    color: #ffbaba;
-    border: 1px solid #7c3333;
-    align-self: flex-start;
-    border-bottom-left-radius: 6px;
+    background-color: #5c2323; color: #ffbaba; border: 1px solid #7c3333;
+    align-self: flex-start; border-bottom-left-radius: 6px;
 }
 .error-message:before {
-    left: -8px;
-    border-width: 10px 10px 0 0;
-    border-color: transparent #5c2323 transparent transparent; /* Standard mørkegrå */
+    left: -8px; border-width: 10px 10px 0 0;
+    border-color: transparent #5c2323 transparent transparent;
 }
-
 .error-message p::before { content: "⚠️ "; font-weight: normal; }
 .message p { margin: 0; word-wrap: break-word; }
 
 #input-area {
-    display: flex;
-    padding: 15px;
-    background-color: #252525; /* Standard mørkegrå: Input-område */
-    border-top: 1px solid #333333;
-    transition: background-color 0.3s;
+    display: flex; padding: 15px;
+    background-color: #252525; /* MØRK: Input-område */
+    border-top: 1px solid #333333; /* MØRK */
+    transition: background-color 0.3s, border-color 0.3s;
     gap: 10px;
 }
-
 #user-input {
-    flex-grow: 1;
-    padding: 12px 18px;
-    border: 1px solid #444; /* Standard mørkegrå */
-    border-radius: 22px;
-    font-size: 1em;
-    background-color: #303030; /* Standard mørkegrå: Inputfelt */
-    color: #e0e0e0;
+    flex-grow: 1; padding: 12px 18px; border-radius: 22px; font-size: 1em;
+    background-color: #303030; /* MØRK: Inputfelt */
+    color: #e0e0e0;            /* MØRK: Tekst i input */
+    border: 1px solid #444;   /* MØRK: Kantlinje input */
     transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.2s;
 }
-#user-input::placeholder { color: #888; transition: color 0.3s; } /* Standard mørkegrå */
+#user-input::placeholder { color: #888; transition: color 0.3s; } /* MØRK */
 #user-input:focus {
-    outline: none;
-    border-color: #007bff; /* Standard mørkegrå */
-    box-shadow: 0 0 0 3px rgba(0,123,255,0.2); /* Standard mørkegrå */
+    outline: none; border-color: #007bff; /* MØRK */
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.2); /* MØRK */
 }
-
 #send-button {
-    padding: 12px 22px;
-    background-color: #007bff; /* Standard mørkegrå */
-    color: white;
-    border: none;
-    border-radius: 22px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: 500;
+    padding: 12px 22px; background-color: #007bff; /* MØRK: Send-knapp */
+    color: white; border: none; border-radius: 22px;
+    cursor: pointer; font-size: 1em; font-weight: 500;
     transition: background-color 0.2s, transform 0.1s;
 }
-#send-button:hover { background-color: #0056b3; } /* Standard mørkegrå */
-#send-button:active { transform: scale(0.96); } /* Standard mørkegrå */
-
+#send-button:hover { background-color: #0056b3; } /* MØRK */
+#send-button:active { transform: scale(0.96); }   /* MØRK */
 
 .thinking {
-    font-style: italic;
-    color: #aaa;
-    background-color: #2a2a2a; /* Standard mørkegrå: Tenke-indikator */
-    align-self: flex-start;
-    border-bottom-left-radius: 6px;
+    font-style: italic; color: #aaa; background-color: #2a2a2a; /* MØRK */
+    align-self: flex-start; border-bottom-left-radius: 6px;
     transition: color 0.3s, background-color 0.3s;
-    padding: 10px 15px;
-    border-radius: 18px;
+    padding: 10px 15px; border-radius: 18px;
 }
 .thinking:before {
-    left: -8px;
-    border-width: 10px 10px 0 0;
-    border-color: transparent #2a2a2a transparent transparent; /* Standard mørkegrå */
+    left: -8px; border-width: 10px 10px 0 0;
+    border-color: transparent #2a2a2a transparent transparent; /* MØRK */
 }
 
-/* For animasjon av bot-svar (dynamisk element) */
-@keyframes pulseGlow {
-    0% {
-        box-shadow: 0 0 4px rgba(100, 150, 255, 0.2), 0 0 6px rgba(100, 150, 255, 0.1) inset;
-        transform: scale(1);
-    }
-    50% {
-        box-shadow: 0 0 12px rgba(100, 150, 255, 0.5), 0 0 14px rgba(100, 150, 255, 0.3) inset;
-        transform: scale(1.015);
-    }
-    100% {
-        box-shadow: 0 0 4px rgba(100, 150, 255, 0.2), 0 0 6px rgba(100, 150, 255, 0.1) inset;
-        transform: scale(1);
-    }
+/* Animasjon for bot-svar (felles) */
+@keyframes pulseGlow { /* ... (beholdes som før) ... */
+    0% { box-shadow: 0 0 4px rgba(100, 150, 255, 0.2), 0 0 6px rgba(100, 150, 255, 0.1) inset; transform: scale(1); }
+    50% { box-shadow: 0 0 12px rgba(100, 150, 255, 0.5), 0 0 14px rgba(100, 150, 255, 0.3) inset; transform: scale(1.015); }
+    100% { box-shadow: 0 0 4px rgba(100, 150, 255, 0.2), 0 0 6px rgba(100, 150, 255, 0.1) inset; transform: scale(1); }
 }
-.bot-reply-indicator {
-    animation: pulseGlow 1.2s ease-out;
-}
+.bot-reply-indicator { animation: pulseGlow 1.2s ease-out; }
 
 .disclaimer-text {
-    font-size: 0.75em;
-    color: #888; /* Standard mørkegrå */
-    text-align: center;
-    padding: 8px 15px 12px 15px;
-    margin: 0;
-    background-color: transparent;
-    transition: color 0.3s;
+    font-size: 0.75em; color: #888; /* MØRK */
+    text-align: center; padding: 8px 15px 12px 15px; margin: 0;
+    background-color: transparent; transition: color 0.3s;
 }
-
 .message-meta {
-    font-size: 0.7em;
-    color: #999; /* Standard mørkegrå */
-    margin-top: 6px;
-    opacity: 0.8;
+    font-size: 0.7em; color: #999; /* MØRK */
+    margin-top: 6px; opacity: 0.8;
 }
-.user-message .message-meta {
-    color: #c0dfff; /* Standard mørkegrå */
-    text-align: right;
-}
+.user-message .message-meta { color: #c0dfff; text-align: right; } /* MØRK */
 .bot-message .message-meta, .error-message .message-meta, .thinking .message-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #aaa; /* Standard mørkegrå */
+    display: flex; justify-content: space-between; align-items: center;
+    color: #aaa; /* MØRK */
 }
-
 .copy-button {
-    background: none; border: none; color: #0095f6; /* Standard mørkegrå */
-    cursor: pointer;
-    font-size: 1.2em;
-    padding: 0 0 0 10px;
-    opacity: 0.6;
-    transition: opacity 0.2s, color 0.2s;
-    line-height: 1;
+    background: none; border: none; color: #0095f6; /* MØRK */
+    cursor: pointer; font-size: 1.2em; padding: 0 0 0 10px;
+    opacity: 0.6; transition: opacity 0.2s, color 0.2s; line-height: 1;
 }
-.copy-button:hover { opacity: 1; color: #007bff; } /* Standard mørkegrå */
-
+.copy-button:hover { opacity: 1; color: #007bff; } /* MØRK */
 
 #chat-controls {
-    padding: 10px 15px 15px 15px;
-    text-align: center;
-    border-top: 1px solid #333333; /* Standard mørkegrå */
-    background-color: #252525; /* Standard mørkegrå: Samme som header */
+    padding: 10px 15px 15px 15px; text-align: center;
+    border-top: 1px solid #333333; /* MØRK */
+    background-color: #252525;     /* MØRK: Samme som header */
 }
 #clear-chat-button {
-    padding: 10px 20px;
-    background-color: #484a4d; /* Standard mørkegrå */
-    color: #e0e0e0;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.9em;
-    font-weight: 500;
+    padding: 10px 20px; background-color: #484a4d; /* MØRK */
+    color: #e0e0e0; border: none; border-radius: 20px;
+    cursor: pointer; font-size: 0.9em; font-weight: 500;
     transition: background-color 0.2s, transform 0.1s;
 }
-#clear-chat-button:hover { background-color: #5a5c60; } /* Standard mørkegrå */
-#clear-chat-button:active { transform: scale(0.97); } /* Standard mørkegrå */
+#clear-chat-button:hover { background-color: #5a5c60; } /* MØRK */
+#clear-chat-button:active { transform: scale(0.97); }   /* MØRK */
 
-/* --- STILER FOR HAMBURGERMENY OG DROPDOWN --- */
+/* --- HAMBURGERMENY (Felles stiler, juster farger under) --- */
 #menu-container {
-    position: absolute;
-    top: 29px; /* Justert for vertikal sentrering i header */
-    left: 20px;
-    transform: translateY(-50%);
-    z-index: 20;
+    position: absolute; top: 29px; left: 20px;
+    transform: translateY(-50%); z-index: 20;
 }
-
-.hamburger-button {
+.hamburger-button { /* ... (beholdes som før) ... */
     background: none; border: none; cursor: pointer; padding: 10px;
     display: flex; flex-direction: column; justify-content: space-around;
     width: 40px; height: 40px; border-radius: 50%;
     transition: background-color 0.2s;
 }
-.hamburger-button:hover { background-color: rgba(255,255,255,0.08); } /* Standard mørkegrå */
-
-.hamburger-button span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    border-radius: 1px;
-    background-color: #e0e0e0; /* Standard mørkegrå: Lyse streker */
+.hamburger-button span { /* ... (beholdes som før, farge settes under) ... */
+    display: block; width: 20px; height: 2px; border-radius: 1px;
     transition: background-color 0.3s, transform 0.3s;
 }
 .hamburger-button[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
 .hamburger-button[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .hamburger-button[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-
-.dropdown-menu {
+.dropdown-menu { /* ... (beholdes som før, farger settes under) ... */
     display: none; position: absolute; top: 50px; left: 0;
-    background-color: #2c2c2c; /* Standard mørkegrå: Dropdown bakgrunn */
-    border-radius: 8px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.5);
-    padding: 8px 0; min-width: 180px;
-    z-index: 19;
-    border: 1px solid #444; /* Standard mørkegrå */
-    transition: background-color 0.3s, box-shadow 0.3s;
+    border-radius: 8px; box-shadow: 0 6px 15px rgba(0,0,0,0.15); /* Skygge justeres for lys/mørk */
+    padding: 8px 0; min-width: 180px; z-index: 19;
+    transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
 }
 .dropdown-menu.open { display: block; }
-
-.menu-item {
+.menu-item { /* ... (beholdes som før, farger settes under) ... */
     display: block; width: 100%; padding: 12px 20px;
     background: none; border: none; text-align: left;
-    cursor: pointer; font-size: 0.95em; color: #e0e0e0; /* Standard mørkegrå */
+    cursor: pointer; font-size: 0.95em;
     transition: background-color 0.2s, color 0.3s;
 }
-.menu-item:hover { background-color: #3a3a3a; } /* Standard mørkegrå */
+
+/* MØRK MODUS spesifikke for meny */
+.hamburger-button:hover { background-color: rgba(255,255,255,0.08); } /* MØRK */
+.hamburger-button span { background-color: #e0e0e0; } /* MØRK: Lyse streker */
+.dropdown-menu {
+    background-color: #2c2c2c; /* MØRK: Dropdown bakgrunn */
+    border: 1px solid #444;   /* MØRK */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.5); /* MØRK */
+}
+.menu-item { color: #e0e0e0; } /* MØRK */
+.menu-item:hover { background-color: #3a3a3a; } /* MØRK */
 
 
-/* --- STILER FOR HELT SVART MODUS (når body.dark-mode er aktiv) --- */
-body.dark-mode {
-    background-color: #000000; /* Helt svart bakgrunn */
-    color: #e0e0e0;
+/* --- LYST TEMA (når body.light-mode er aktiv) --- */
+body.light-mode {
+    background-color: #f0f2f5; /* LYST: Hovedbakgrunn (lys grå) */
+    color: #1c1e21;           /* LYST: Mørk tekst */
 }
 
-body.dark-mode #chat-container {
-    background-color: #0d0d0d; /* Veldig mørk grå, nesten svart */
-    border: 1px solid #1a1a1a;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.8);
+body.light-mode #chat-container {
+    background-color: #ffffff; /* LYST: Chat container (hvit) */
+    border: 1px solid #d1d5db; /* LYST: Kantlinje */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* LYST: Subtil skygge */
 }
 
-body.dark-mode h1 {
-    background-color: #121212; /* Veldig mørk header */
-    border-bottom: 1px solid #1a1a1a;
+body.light-mode h1 {
+    background-color: #f7f7f7; /* LYST: Header (veldig lys grå) */
+    color: #1c1e21;           /* LYST: Mørk tekst i header */
+    border-bottom: 1px solid #e0e0e0; /* LYST: Kantlinje under header */
 }
 
-body.dark-mode .switch input:checked + .slider {
-    background-color: #007bff; /* Blå for bryter når "helt svart" er på */
+/* Bryteren i lyst modus (checkbox er checked) */
+body.light-mode .switch input:checked + .slider {
+    background-color: #007bff; /* Blå for "på"-statusen er ok */
 }
-body.dark-mode .switch input:checked + .slider:before {
-    background-color: #000000; /* Selve sirkelen inni bryteren blir svart */
+body.light-mode .switch input:checked + .slider:before {
+    background-color: #ffffff; /* Hvit sirkel */
 }
-
-body.dark-mode #chat-window {
-    background-color: #0d0d0d; /* Matcher chat-container */
-    border-bottom: 1px solid #1a1a1a;
-    scrollbar-color: #222 #0d0d0d; /* Mørkere scrollbar */
+/* Hvis du vil ha en annen "av"-farge for bryteren når lys modus er aktiv (checkbox er NOT checked) */
+/* Dette er litt motsatt av vanlig, da "av" her betyr "mørk modus" */
+body.light-mode .switch input:not(:checked) + .slider {
+    background-color: #ccc; /* Grå når "av" (dvs. mørk modus) */
 }
-body.dark-mode #chat-window::-webkit-scrollbar-track { background: #0d0d0d; }
-body.dark-mode #chat-window::-webkit-scrollbar-thumb { background-color: #222; }
-
-body.dark-mode .bot-message {
-    background-color: #1c1c1c; /* Litt lysere enn bakgrunnen */
-    color: #dadce0;
-}
-body.dark-mode .bot-message:before {
-    border-color: transparent #1c1c1c transparent transparent;
+body.light-mode .switch input:not(:checked) + .slider:before {
+    background-color: #fff; /* Hvit sirkel */
 }
 
-body.dark-mode .error-message {
-    background-color: #3d1a1a; /* Mørkere rød */
-    color: #ff9a9a;
-    border: 1px solid #5a2a2a;
+
+body.light-mode #chat-window {
+    background-color: #ffffff; /* LYST: Bakgrunn chat-vindu */
+    border-bottom: 1px solid #e0e0e0; /* LYST */
+    scrollbar-color: #c1c1c1 #f0f0f0; /* LYST: Scrollbar */
 }
-body.dark-mode .error-message:before {
-    border-color: transparent #3d1a1a transparent transparent;
+body.light-mode #chat-window::-webkit-scrollbar-track { background: #f0f0f0; } /* LYST */
+body.light-mode #chat-window::-webkit-scrollbar-thumb { background-color: #c1c1c1; } /* LYST */
+
+/* LYST MODUS MELDINGER */
+body.light-mode .user-message {
+    background-color: #007bff; /* Blå er fortsatt ok */
+    color: white;
+}
+body.light-mode .user-message:before {
+    border-color: transparent transparent transparent #007bff;
+}
+body.light-mode .bot-message {
+    background-color: #e9ebee; /* LYST: Lys grå for bot-melding */
+    color: #1c1e21;           /* LYST: Mørk tekst */
+}
+body.light-mode .bot-message:before {
+    border-color: transparent #e9ebee transparent transparent;
+}
+body.light-mode .error-message {
+    background-color: #ffebee; /* LYST: Lys rød for feilmelding */
+    color: #c62828;           /* LYST: Mørk rød tekst */
+    border: 1px solid #e57373; /* LYST */
+}
+body.light-mode .error-message:before {
+    border-color: transparent #ffebee transparent transparent;
 }
 
-body.dark-mode .user-message {
-    background-color: #0056b3; /* Dypere blå, eller behold som standard */
+body.light-mode #input-area {
+    background-color: #f7f7f7; /* LYST: Input-område */
+    border-top: 1px solid #e0e0e0; /* LYST */
 }
-body.dark-mode .user-message:before {
-    border-color: transparent transparent transparent #0056b3;
+body.light-mode #user-input {
+    background-color: #ffffff; /* LYST: Inputfelt */
+    color: #1c1e21;           /* LYST: Tekst i input */
+    border: 1px solid #ced4da;   /* LYST: Kantlinje input */
+}
+body.light-mode #user-input::placeholder { color: #6c757d; } /* LYST */
+body.light-mode #user-input:focus {
+    border-color: #80bdff; /* LYST: Fokus-farge */
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); /* LYST */
+}
+body.light-mode #send-button {
+    background-color: #007bff; /* LYST: Send-knapp */
+    /* color: white; (beholdes) */
+}
+body.light-mode #send-button:hover { background-color: #0056b3; } /* LYST */
+
+body.light-mode .thinking {
+    color: #6c757d;           /* LYST */
+    background-color: #f8f9fa; /* LYST */
+}
+body.light-mode .thinking:before {
+    border-color: transparent #f8f9fa transparent transparent; /* LYST */
 }
 
-body.dark-mode #input-area {
-    background-color: #121212; /* Veldig mørk */
-    border-top: 1px solid #1a1a1a;
-}
+body.light-mode .disclaimer-text { color: #6c757d; } /* LYST */
+body.light-mode .message-meta { color: #6c757d; } /* LYST */
+body.light-mode .user-message .message-meta { color: #e0e0e0; } /* LYST: Lysere på blå bakgrunn */
+body.light-mode .bot-message .message-meta,
+body.light-mode .error-message .message-meta,
+body.light-mode .thinking .message-meta { color: #6c757d; } /* LYST */
 
-body.dark-mode #user-input {
-    background-color: #1a1a1a;
-    color: #e0e0e0;
-    border: 1px solid #2c2c2c;
-}
-body.dark-mode #user-input::placeholder { color: #666; }
-body.dark-mode #user-input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
-}
+body.light-mode .copy-button { color: #007bff; } /* LYST */
+body.light-mode .copy-button:hover { color: #0056b3; } /* LYST */
 
-body.dark-mode #send-button {
-    background-color: #007bff; /* Kan justeres for "helt svart" */
+body.light-mode #chat-controls {
+    background-color: #f7f7f7; /* LYST: Samme som header */
+    border-top: 1px solid #e0e0e0; /* LYST */
 }
-body.dark-mode #send-button:hover { background-color: #0056b3; }
-
-body.dark-mode .thinking {
-    color: #888;
-    background-color: #181818;
+body.light-mode #clear-chat-button {
+    background-color: #e9ecef; /* LYST */
+    color: #343a40;           /* LYST */
 }
-body.dark-mode .thinking:before {
-    border-color: transparent #181818 transparent transparent;
+body.light-mode #clear-chat-button:hover { background-color: #dee2e6; } /* LYST */
+
+/* LYST MODUS spesifikke for meny */
+body.light-mode .hamburger-button:hover { background-color: rgba(0,0,0,0.05); } /* LYST */
+body.light-mode .hamburger-button span { background-color: #343a40; } /* LYST: Mørke streker */
+body.light-mode .dropdown-menu {
+    background-color: #ffffff; /* LYST: Dropdown bakgrunn */
+    border: 1px solid #d1d5db;   /* LYST */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1); /* LYST */
 }
-
-body.dark-mode .disclaimer-text { color: #666; }
-body.dark-mode .message-meta { color: #777; }
-body.dark-mode .user-message .message-meta { color: #a0cfff; }
-body.dark-mode .bot-message .message-meta,
-body.dark-mode .error-message .message-meta,
-body.dark-mode .thinking .message-meta { color: #777; }
-
-body.dark-mode .copy-button { color: #0085e6; }
-body.dark-mode .copy-button:hover { color: #0069d9; }
-
-body.dark-mode #chat-controls {
-    background-color: #121212; /* Veldig mørk */
-    border-top: 1px solid #1a1a1a;
-}
-body.dark-mode #clear-chat-button {
-    background-color: #2c2c2c;
-    color: #ccc;
-}
-body.dark-mode #clear-chat-button:hover { background-color: #383838; }
-
-body.dark-mode .hamburger-button:hover { background-color: rgba(255,255,255,0.04); }
-body.dark-mode .hamburger-button span { background-color: #e0e0e0; }
-
-body.dark-mode .dropdown-menu {
-    background-color: #1c1c1c; /* Mørk dropdown */
-    border: 1px solid #282828;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.7);
-}
-body.dark-mode .menu-item { color: #e0e0e0; }
-body.dark-mode .menu-item:hover { background-color: #282828; }
+body.light-mode .menu-item { color: #1c1e21; } /* LYST: Mørk tekst */
+body.light-mode .menu-item:hover { background-color: #f0f2f5; } /* LYST */
