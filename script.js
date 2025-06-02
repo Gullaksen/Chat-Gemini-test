@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropdownMenu = document.getElementById('dropdown-menu');
     const loginButtonMenu = document.getElementById('login-button-menu');
 
+    // Sørg for at denne URL-en er korrekt for din Replit backend
     const backendUrl = 'https://b9280818-97da-4f17-9c2e-db08824cd4f1-00-2btl4c4c21klj.picard.replit.dev/chat';
 
     // --- TEMABYTTING (Mørk/Lys) ---
@@ -38,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- LOGIKK FOR HAMBURGERMENY ---
-    // (Beholdes som før)
     if (hamburgerButton && dropdownMenu) {
         hamburgerButton.addEventListener('click', (event) => {
             event.stopPropagation();
@@ -67,13 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- HJELPEFUNKSJONER FOR MELDINGER ---
-    // (Beholdes som før)
-    function formatTime(date) { /* ... */
+    function formatTime(date) {
         const hours = date.getHours().toString().padStart(2, '0');
         const minutes = date.getMinutes().toString().padStart(2, '0');
         return `${hours}:${minutes}`;
     }
-    function addTimestamp(messageElement) { /* ... */
+
+    function addTimestamp(messageElement) {
         let metaDiv = messageElement.querySelector('.message-meta');
         if (!metaDiv) {
             metaDiv = document.createElement('div');
@@ -90,7 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return currentTime;
     }
-    function addTimestampFromText(messageElement, timestampText) { /* ... */
+
+    function addTimestampFromText(messageElement, timestampText) {
         let metaDiv = messageElement.querySelector('.message-meta');
         if (!metaDiv) {
             metaDiv = document.createElement('div');
@@ -105,7 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
             metaDiv.appendChild(timestampSpan);
         }
     }
-    function addCopyButton(messageElement, textToCopy) { /* ... */
+
+    function addCopyButton(messageElement, textToCopy) {
         let metaDiv = messageElement.querySelector('.message-meta');
         if (!metaDiv) {
             metaDiv = document.createElement('div');
@@ -134,7 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
             metaDiv.insertBefore(copyBtn, metaDiv.firstChild);
         }
     }
-    function renderSimpleMarkdown(text) { /* ... */
+
+    function renderSimpleMarkdown(text) {
         if (typeof text !== 'string') return '';
         let html = text;
         html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -142,7 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
         html = html.replace(/\n/g, '<br>');
         return html;
     }
-    function addMessageToChat(message, sender, type = '') { /* ... */
+
+    function addMessageToChat(message, sender, type = '') {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message');
         if (type === 'error') {
@@ -159,7 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
         messageElement.appendChild(pElement);
         return messageElement;
     }
-    function showThinkingIndicator() { /* ... */
+
+    function showThinkingIndicator() {
         const thinkingElement = document.createElement('div');
         thinkingElement.classList.add('message', 'bot-message', 'thinking');
         thinkingElement.id = 'thinking-indicator';
@@ -169,28 +174,32 @@ document.addEventListener('DOMContentLoaded', () => {
         chatWindow.appendChild(thinkingElement);
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
-    function removeThinkingIndicator() { /* ... */
+
+    function removeThinkingIndicator() {
         const thinkingIndicator = document.getElementById('thinking-indicator');
         if (thinkingIndicator) thinkingIndicator.remove();
     }
 
-    const CHAT_HISTORY_KEY = 'gullaksenChatHistory_v3_darklight'; // Ny nøkkel
+    const CHAT_HISTORY_KEY = 'gullaksenChatHistory_v3_darklight'; // Eller din siste nøkkel
 
-    function saveMessageToHistory(messageObject) { /* ... (beholdes) ... */
+    function saveMessageToHistory(messageObject) {
         const history = getChatHistory();
-        history.push(messageObject);
+        history.push(messageObject); // messageObject = { text: "...", sender: "user/bot", ...}
         try { localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(history)); }
         catch (e) { console.error("Feil ved lagring til localStorage:", e); }
     }
-    function getChatHistory() { /* ... (beholdes) ... */
+
+    function getChatHistory() {
         const historyJSON = localStorage.getItem(CHAT_HISTORY_KEY);
         try { return historyJSON ? JSON.parse(historyJSON) : []; }
         catch (e) { console.error("Feil ved parsing av historikk:", e); localStorage.removeItem(CHAT_HISTORY_KEY); return []; }
     }
-    function clearChatHistory() { /* ... (beholdes) ... */
+
+    function clearChatHistory() {
         localStorage.removeItem(CHAT_HISTORY_KEY);
     }
-    function displayMessageFromHistory(messageObject) { /* ... (beholdes) ... */
+
+    function displayMessageFromHistory(messageObject) {
         const messageElement = addMessageToChat(messageObject.text, messageObject.sender, messageObject.type || '');
         addTimestampFromText(messageElement, messageObject.timestamp);
         if (messageObject.sender === 'bot' && (!messageObject.type || messageObject.type !== 'error')) {
@@ -198,7 +207,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         chatWindow.appendChild(messageElement);
     }
-    function loadChatHistory() { /* ... (beholdes) ... */
+
+    function loadChatHistory() {
         chatWindow.innerHTML = '';
         const history = getChatHistory();
         if (history.length === 0) {
@@ -208,75 +218,116 @@ document.addEventListener('DOMContentLoaded', () => {
             addTimestampFromText(welcomeMessageElement, currentTime);
             addCopyButton(welcomeMessageElement, welcomeText);
             chatWindow.appendChild(welcomeMessageElement);
+            // Valgfritt: Lagre velkomstmeldingen i historikken hvis du vil at boten skal vite om den
+            // saveMessageToHistory({ text: welcomeText, sender: 'bot', timestamp: currentTime, type: '' });
         } else {
             history.forEach(displayMessageFromHistory);
         }
         chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
-    async function sendMessage() { /* ... (beholdes med glød-effekt) ... */
+    async function sendMessage() {
         const messageText = userInput.value.trim();
         if (messageText === '') return;
 
         const userMessageElement = addMessageToChat(messageText, 'user');
         const userTimestamp = addTimestamp(userMessageElement);
         chatWindow.appendChild(userMessageElement);
+        // Lagre brukerens melding til lokal historikk
         saveMessageToHistory({ text: messageText, sender: 'user', timestamp: userTimestamp, type: '' });
 
         userInput.value = '';
         showThinkingIndicator();
 
+        // Forbered historikk for sending til backend
+        // Dette er alle meldinger *før* den brukeren nettopp skrev
+        const currentFullHistory = getChatHistory();
+        const historyToSendToBackend = currentFullHistory.slice(0, -1).map(msg => ({
+            text: msg.text,
+            sender: msg.sender // 'user' eller 'bot'
+        }));
+        // console.log("Sender til backend - Melding:", messageText, "Historikk:", historyToSendToBackend);
+
+
         try {
             const response = await fetch(backendUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: messageText }),
+                body: JSON.stringify({ message: messageText, history: historyToSendToBackend }),
             });
+
             removeThinkingIndicator();
-            let replyText, messageType = '';
+            let replyText;
+            let messageType = '';
+
             if (!response.ok) {
                 let errorData = { reply: `Feil: ${response.status} ${response.statusText}`};
-                try { errorData = await response.json(); } catch (e) {}
+                try { errorData = await response.json(); } catch (e) { /* Ignorer */ }
                 replyText = errorData.reply || errorData.error || `Serverfeil: ${response.status}`;
-                messageType = 'error'; console.error('Serverfeil:', response);
+                messageType = 'error';
+                console.error('Serverfeil:', response);
             } else {
                 const data = await response.json();
-                if (data.reply) replyText = data.reply;
-                else if (data.error) { replyText = `Feil fra bot: ${data.error}`; messageType = 'error'; }
-                else { replyText = "Fikk et uventet svar fra boten."; messageType = 'error'; }
+                if (data.reply) {
+                    replyText = data.reply;
+                } else if (data.error) {
+                    replyText = `Feil fra bot: ${data.error}`;
+                    messageType = 'error';
+                } else {
+                    replyText = "Fikk et uventet svar fra boten.";
+                    messageType = 'error';
+                }
             }
+
             const botMessageElement = addMessageToChat(replyText, 'bot', messageType);
             const botTimestamp = addTimestamp(botMessageElement);
             if (messageType !== 'error') {
                 addCopyButton(botMessageElement, replyText);
                 botMessageElement.classList.add('bot-reply-indicator');
-                setTimeout(() => { if (botMessageElement) botMessageElement.classList.remove('bot-reply-indicator'); }, 1200);
+                setTimeout(() => {
+                    if (botMessageElement) {
+                        botMessageElement.classList.remove('bot-reply-indicator');
+                    }
+                }, 1200);
             }
             chatWindow.appendChild(botMessageElement);
+            // Lagre botens svar til lokal historikk
             saveMessageToHistory({ text: replyText, sender: 'bot', timestamp: botTimestamp, type: messageType });
+
         } catch (error) {
             removeThinkingIndicator();
-            const errorText = 'Kunne ikke koble til chatbot-serveren.';
+            const errorText = 'Kunne ikke koble til chatbot-serveren. Sjekk at serveren kjører og at backendUrl er riktig.';
             const errorMsgElement = addMessageToChat(errorText, 'bot', 'error');
-            addTimestamp(errorMsgElement);
+            const errorTimestamp = addTimestamp(errorMsgElement); // Korrigert
             chatWindow.appendChild(errorMsgElement);
-            saveMessageToHistory({ text: errorText, sender: 'bot', timestamp: formatTime(new Date()), type: 'error' });
-            console.error('Nettverksfeil:', error);
+            saveMessageToHistory({ text: errorText, sender: 'bot', timestamp: errorTimestamp, type: 'error' });
+            console.error('Nettverksfeil eller feil ved sending/mottak:', error);
         }
-        requestAnimationFrame(() => { chatWindow.scrollTop = chatWindow.scrollHeight; });
+
+        requestAnimationFrame(() => {
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        });
     }
 
     // --- EVENT LISTENERS ---
-    // (Beholdes som før)
-    if (sendButton) sendButton.addEventListener('click', sendMessage);
+    if (sendButton) {
+        sendButton.addEventListener('click', sendMessage);
+    }
     if (userInput) {
         userInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
         });
     }
+
     if (clearChatButton) {
         clearChatButton.addEventListener('click', () => {
-            if (confirm("Er du sikker på at du vil slette chatloggen?")) { clearChatHistory(); loadChatHistory(); }
+            if (confirm("Er du sikker på at du vil slette chatloggen?")) {
+                clearChatHistory();
+                loadChatHistory();
+            }
         });
     }
 
